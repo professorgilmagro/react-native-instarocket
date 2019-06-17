@@ -2,14 +2,7 @@ import React, { Component } from 'react';
 import api from '../../services/api';
 import io from 'socket.io-client';
 
-import {
-	View,
-	Text,
-	Image,
-	TouchableOpacity,
-	FlatList,
-	StyleSheet
-} from 'react-native';
+import { View, Text, Image, TouchableOpacity, FlatList } from 'react-native';
 import camera from '../../assets/camera.png';
 import more from '../../assets/more.png';
 import send from '../../assets/send.png';
