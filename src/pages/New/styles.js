@@ -23,9 +23,21 @@ export default StyleSheet.create({
 		color: '#666'
 	},
 
+	previewArea: {
+		borderWidth: 1,
+		borderColor: '#ccc',
+		borderStyle: 'dashed',
+		width: '100%',
+		display: 'flex',
+		alignItems: 'center',
+		justifyContent: 'center',
+		marginTop: 20
+	},
+
 	preview: {
-		height: '40%',
-		marginTop: 10,
+		width: '100%',
+		minHeight: '30%',
+		height: 'auto',
 		alignSelf: 'center'
 	},
 

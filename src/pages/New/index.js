@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 
 import ImagePicker from 'react-native-image-picker';
+import { LineDotsLoader } from 'react-native-indicator';
 
 import styles from './styles';
 import noimage from '../../assets/noimage.png';
@@ -28,7 +29,8 @@ export default class New extends Component {
 		name: '',
 		place: '',
 		description: '',
-		hashtags: ''
+		hashtags: '',
+		loading: false
 	};
 
 	handleSelectImage = () => {
@@ -49,9 +51,10 @@ export default class New extends Component {
 
 				this.setState({
 					preview: {
-						uri: `data:image/jpeg;base64,${upload.data}`
+						uri: `data:${upload.type};base64,${upload.data}`
 					},
 					image: {
+						uri: upload.uri,
 						type: upload.type,
 						name: this.getNewFileName(upload.fileName)
 					}
@@ -71,25 +74,43 @@ export default class New extends Component {
 	handleSubmit = async () => {
 		const data = new FormData();
 
+		this.setState({ loading: true });
 		data.append('image', this.state.image);
 		data.append('author', this.state.author);
 		data.append('place', this.state.place);
 		data.append('description', this.state.description);
-		data.append('hashtags', this.state.image);
+		data.append('hashtags', this.state.hashtags);
 
 		await api.post('posts', data);
+		this.setState({ loading: false });
+
 		this.props.navigation.navigate('Feed');
 	};
 
 	render() {
-		const image = this.state.preview ? this.state.preview : noimage;
+		let imageSource = noimage;
+		let imageMode = 'contain';
+
+		if (this.state.preview) {
+			imageSource = this.state.preview;
+			imageMode = 'cover';
+		}
+
 		return (
 			<View style={styles.container}>
-				<TouchableOpacity onPress={this.handleSelectImage}>
+				<LineDotsLoader
+					color='#7159c1'
+					dotsNumber={6}
+					size={this.state.loading ? 10 : 0}
+				/>
+				<TouchableOpacity
+					style={styles.previewArea}
+					onPress={this.handleSelectImage}
+				>
 					<Image
-						source={image}
+						source={imageSource}
 						style={styles.preview}
-						resizeMode='contain'
+						resizeMode={imageMode}
 					/>
 				</TouchableOpacity>
 

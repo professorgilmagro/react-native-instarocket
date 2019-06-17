@@ -1,7 +1,7 @@
 import axios from 'axios';
-import SrvConf from '../config/server';
+import conf from '../config/server';
 const api = axios.create({
-	baseURL: SrvConf.getURL()
+	baseURL: conf.getURL()
 });
 
 export default api;
